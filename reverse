@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Reverses the setup done for the deployment of web_static
+
+# Remove the added nginx location configuration
+sudo sed -i '/location \/hbnb_static\/ {/,/}/d' /etc/nginx/sites-available/default
+
+# Remove the directories and files created
+sudo rm -rf /data/web_static/releases/test
+sudo rm -rf /data/web_static/shared
+sudo rm -rf /data/web_static/current
+
+# Stop the nginx service if it is not needed anymore
+sudo service nginx stop
+
+# Optionally, you might want to uninstall nginx if it was installed solely for this purpose
+# Uncomment the following line if you want to uninstall nginx
+# sudo apt-get -y remove nginx
+
+# Revert the ownership changes
+# Assuming the previous owner was root, you may need to set it back to root
+# sudo chown -hR root:root /data/
+# Or if there was another specific user and group, use those instead
+
+# Revert any package updates or upgrades
+# Note: This is not straightforward to reverse and can potentially cause issues
+# sudo apt-get -y downgrade  # Note: Downgrading packages generally requires specific versions
+
+echo "Reversal complete."
+
